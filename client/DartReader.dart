@@ -2,11 +2,12 @@
 #import('dart:uri');
 #import('dart:json');
 #source('utils/SourceItem.dart');
+#source('utils/FeedItem.dart');
 #source ('templates/Source_list.dart');
 
 class DartReader {
   final SOURCE_FEED_URL="http://127.0.0.1:8080/feeds";
-  final SOURCE_FEED_ITEM_URL="http://127.0.0.1:8080/feedsitems?fid=";
+  final SOURCE_FEED_ITEM_URL="http://127.0.0.1:8080/feeditems?fid=";
   final WINDOW_MESSAGE_GET_FEED_ITEM="get_feed_item_";
   
   DartReader() {
