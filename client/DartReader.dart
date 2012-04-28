@@ -47,9 +47,8 @@ class DartReader {
       
       s.id = item['id'];
       s.title = item['title'];
-
+      s.imageUrl = item['imageUrl'];
       result.add(s);
-      
     }
     
     display_source_list(result);

@@ -36,8 +36,10 @@ class SourceList {
   each_0(List items, Element parent) {
     for (var item in items) {
       _scopes["item"] = item;
-      var e0 = new Element.html('<li>${inject_0()}</li>');
+      var e0 = new Element.html('<li></li>');
       parent.elements.add(e0);
+      var e1 = new Element.html('<span>${inject_0()}</span>');
+      e0.elements.add(e1);
       _scopes.remove("item");
     }
   }
