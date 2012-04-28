@@ -29,7 +29,7 @@ class SourceList {
     // Local scoped block names.
     var item = _scopes["item"];
 
-    return safeHTML('${item}');
+    return safeHTML('${item.title}');
   }
 
   // Each functions:
