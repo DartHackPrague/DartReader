@@ -1,6 +1,7 @@
 #import('dart:html');
 #import('dart:uri');
 #import('dart:json');
+#source('utils/SourceItem.dart');
 #source ('templates/Source_list.dart');
 
 class DartReader {
@@ -12,13 +13,11 @@ class DartReader {
   
   void run() {
     window.on.message.add(dataReceived);
-    init_source();
+    init_data();
   }
 
-  void init_source(){
-    List source_list = get_fake_source_list();
-     
-    loadSourceData(SOURCE_FEED_URL);
+  void init_data(){
+    load_data(SOURCE_FEED_URL);
   }
  
   
@@ -38,17 +37,25 @@ class DartReader {
     print(data['responseData']);
     List s =  data['responseData']['results'] ;
     
-    List source_list = new List();
-    for (var item in s){
-      print(item['title']);
-      source_list.add(item['title']);
+    process_source_data(s);
+  }
+  
+  void process_source_data(List data){
+    List result = new List();
+    for (var item in data){
+      SourceItem s = new SourceItem();
+      
+      s.id = item['id'];
+      s.title = item['title'];
+
+      result.add(s);
       
     }
     
-    display_source_list(source_list);
+    display_source_list(result);
   }
   
-  void loadSourceData(String feedURL){
+  void load_data(String feedURL){
     Element script = new Element.tag("script");
     script.src = feedURL;
     document.body.elements.add(script);

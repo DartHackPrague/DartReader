@@ -1,4 +1,3 @@
-#library("Controller");
 #import('dart:io');
 #import('dart:uri');
 #import('dart:json');
