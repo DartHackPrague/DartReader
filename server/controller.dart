@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-#library("time_server");
+#library("Controller");
 
 #import("dart:io");
 #import("dart:json");
@@ -28,13 +28,21 @@ void requestReceivedHandler(HttpRequest request, HttpResponse response) {
     print("Request: ${request.method} ${request.uri}");
   }
 
+  
   String jsonResponse = createJsonResponse();
-  
-  
+    
   response.headers.set(HttpHeaders.CONTENT_TYPE, "text/html; charset=UTF-8");
   response.outputStream.writeString(jsonResponse);
   response.outputStream.close();
 }
+
+void parseAsRest(HttpRequest request) {
+  String httpMethod = request.method;
+  String action = request.uri;
+}
+
+
+//demo:
 
 String createJsonResponse() {
   
