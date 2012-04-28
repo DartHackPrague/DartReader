@@ -1,22 +1,14 @@
 class FeedItemController {
   
-  String get(String id) {
-    Storage repo = new InMemoryStorage();
-    List<FeedItem> items = repo.getFeedItems(id);
+  Storage _storage;
+  
+  FeedItemController(this._storage) {}
+  
+  
+  String get(String feedId) {
+    var items = _storage.getFeedItems(feedId);
 
-    var allDtos = items.map(toDto);
-    String response = JSON.stringify(allDtos);
+    String response = JSON.stringify(items);
     return response;
-  }
-  
-  
-  // Converts domain object to Data-transfer-object
-  String toDto(FeedItem item) {
-    var dto = new JsonObject();  //default constructor sets isExtendable to true
-    dto.id = item.id;
-    dto.title = item.title;
-    dto.url = item.url;
-    dto.description = item.description;
-    return dto; 
   }
 }

@@ -14,6 +14,7 @@
 #source('FeedController.dart');
 #source('FeedItemController.dart');
 #source('ParserController.dart');
+#source('Convert.dart');
 
 
 class Server {
@@ -22,17 +23,25 @@ class Server {
 
   final LOG_REQUESTS = true;
 
-  Feed tempParsed;
+  FeedController _feedController;
+  FeedItemController _feedItemController;
+  ParserController _parserController;
+  Storage _storage;
+  
+  Server() {
+    _storage = new InMemoryStorage();
+    _feedController = new FeedController(_storage);
+    _feedItemController = new FeedItemController(_storage);
+    _parserController = new ParserController();
+  }
   
   
   void run() {
-    FeedParser.loadAndParse(@"C:\work\dartfeeds\bbc.xml").then(
-      (Feed f) => tempParsed = f);
+    //FeedParser.loadAndParse(@"C:\work\dartfeeds\bbc.xml").then((Feed f) => tempParsed = f);
+    initTestData();
     
     HttpServer server = new HttpServer();
-    
     server.addRequestHandler((HttpRequest request) => true, requestReceivedHandler);
-    
     server.listen(HOST, PORT);
     
     print("Serving the current time on http://${HOST}:${PORT}."); 
@@ -46,26 +55,22 @@ class Server {
     
     String result;
     if (request.path.startsWith('/feeds')) {
-      
-      FeedController c = new FeedController();
-      result = c.get();
-      
+      result = _feedController.get();
     } else if (request.path.startsWith('/feeditems')) {
-      
-      FeedItemController c = new FeedItemController();
-      result = c.get(request.queryParameters['fid']);
-      
+      result = _feedItemController.get(request.queryParameters['fid']);
     } else if (request.path.startsWith('/parsed')) {
-
-      ParserController c = new ParserController();
-      result = c.get(tempParsed);
-      
+      result = _parserController.get(null); // TODO
     } else {
       result = ''; // TODO 404
     }
     
+    respond(response, result);
+  }
+  
+  
+  void respond(HttpResponse response, String data) {
     response.headers.set(HttpHeaders.CONTENT_TYPE, "text/html; charset=UTF-8");
-    response.outputStream.writeString(wrapJson(result));
+    response.outputStream.writeString(wrapJson(data));
     response.outputStream.close();
   }
   
@@ -77,6 +82,62 @@ class Server {
     sb.add('}})');
     
     return sb.toString();
+  }
+  
+  void initTestData() {
+    var feed;
+    var i;
+    var itemsList;
+    
+    // feed 1
+    feed = new JsonObject();
+    feed.id = null;
+    feed.title = "BBC News - Home";
+    feed.imageUrl = "http://news.bbcimg.co.uk/nol/shared/img/bbc_news_120x60.gif";
+    _storage.saveFeed(feed);
+    
+    itemsList = new List();
+    
+    i = new JsonObject();
+    i.guid = '1';
+    i.title = 'Item 11';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
+    itemsList.add(i);
+    
+    i = new JsonObject();
+    i.guid = '2';
+    i.title = 'Item 12';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
+    itemsList.add(i);
+    
+    _storage.addFeedItems("1", itemsList);
+
+    // feed 2
+    feed = new JsonObject();
+    feed.id = null;
+    feed.title = "any rss feed...";
+    feed.imageUrl = "http://news.bbcimg.co.uk/nol/shared/img/bbc_news_120x60.gif";
+    _storage.saveFeed(feed);
+    
+    itemsList = new List();
+    
+    i = new JsonObject();
+    i.guid = '3';
+    i.title = 'Item 21';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
+    itemsList.add(i);
+    
+    i = new JsonObject();
+    i.guid = '4';
+    i.title = 'Item 22';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
+    itemsList.add(i);
+    
+    _storage.addFeedItems("2", itemsList);
   }
 }
 

@@ -20,10 +20,8 @@ class FeedParser
     InputStream stream = file.openInputStream();
     
     stream.onData = () {
-      print('stream.onData');
       List content = stream.read();
       String xmlString = new String.fromCharCodes(content);
-      print('xml len = ${xmlString.length}');
       var xml = XML.parse(xmlString);
       
       Feed f = new Feed();
