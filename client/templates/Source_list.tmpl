@@ -9,7 +9,7 @@ template SourceList(List source_list) {
 template FeedItemsList(List feed_items_list) {
 	    <ul id="feed_items_lst">
 	      ${#each feed_items_list item}
-		      <li><span>${item.title}</span></li>
+		      <li><span><a href="${item.url}">${item.title}</a></span><span>${item.pubDate}</span><span>${item.description}</span></li>
 	      ${/each}
 	    </ul>
 }

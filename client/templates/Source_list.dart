@@ -82,14 +82,34 @@ class FeedItemsList {
     return safeHTML('${item.title}');
   }
 
+  String inject_1() {
+    // Local scoped block names.
+    var item = _scopes["item"];
+
+    return safeHTML('${item.pubDate}');
+  }
+
+  String inject_2() {
+    // Local scoped block names.
+    var item = _scopes["item"];
+
+    return safeHTML('${item.description}');
+  }
+
   // Each functions:
   each_0(List items, Element parent) {
     for (var item in items) {
       _scopes["item"] = item;
       var e0 = new Element.html('<li></li>');
       parent.elements.add(e0);
-      var e1 = new Element.html('<span>${inject_0()}</span>');
+      var e1 = new Element.html('<span></span>');
       e0.elements.add(e1);
+      var e2 = new Element.html('<a href="${item.url}">${inject_0()}</a>');
+      e1.elements.add(e2);
+      var e3 = new Element.html('<span>${inject_1()}</span>');
+      e0.elements.add(e3);
+      var e4 = new Element.html('<span>${inject_2()}</span>');
+      e0.elements.add(e4);
       _scopes.remove("item");
     }
   }

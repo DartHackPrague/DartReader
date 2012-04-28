@@ -31,6 +31,8 @@ class DartReader {
   }
   
   void display_feed_items_list(List source_list){
+    document.body.query('#feed_items_lst').remove();
+    
     FeedItemsList source_tmp = new FeedItemsList(source_list);
     document.body.elements.add(source_tmp.root);
   }
@@ -94,6 +96,10 @@ class DartReader {
       FeedItem s = new FeedItem();
 
       s.title = item['title'];
+      s.url = item['url'];
+      s.description = item['description'];
+      s.guid = item['guid'];
+      s.pubDate = item['pubDate'];
       result.add(s);
     }
     
