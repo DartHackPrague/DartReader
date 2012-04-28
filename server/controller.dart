@@ -7,6 +7,8 @@
 #import("dart:io");
 #import("dart:json");
 #import("../3rdParty/jsonObject.dart");
+#import("FeedProvider.dart");
+#import ('../dart-feed/FeedParser.dart');
 
 final HOST = "127.0.0.1";
 final PORT = 8080;
@@ -46,12 +48,36 @@ void parseAsRest(HttpRequest request) {
 
 String createJsonResponse() {
   
+  FeedProvider fp = new FeedProvider();
+  var allDtos = fp.GetAll().map(toDto);
+  String response =  JSON.stringify(allDtos);
+  return response;
+  
+  /*
   var feed = new JsonObject();  //default constructor sets isExtendable to true
   feed.name = "Chris";
   feed.title = "FirstTitle";
   String response =  JSON.stringify(feed);
-  return response;
+  return response;*/
+  
 }
+
+//Converts domain object to Data-transfer-object
+String toDto(Feed domainObject){
+  var dto = new JsonObject();  //default constructor sets isExtendable to true
+  dto.id = domainObject.id;
+  dto.title = domainObject.title;
+  dto.url = domainObject.url;
+  return dto; 
+}
+/*
+String id;
+String title;
+String url;
+String description;
+String imageUrl;
+  */
+
 
 String createJsonResponseExample() {
   return 
