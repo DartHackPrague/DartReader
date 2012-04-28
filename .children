@@ -1,7 +1,7 @@
 3rdParty/jsonObject.dart
 server/server.dart
-DartReader.dart
 server/Storage/Storage.dart
 client/controller.dart
 dart-feed/FeedParser.dart
 3rdParty/dart-xml/Xml.dart
+client/DartReader.dart

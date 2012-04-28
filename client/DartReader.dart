@@ -1,7 +1,7 @@
 #import('dart:html');
 #import('dart:uri');
 #import('dart:json');
-#source ('client/templates/Source_list.dart');
+#source ('templates/Source_list.dart');
 
 class DartReader {
   final SOURCE_FEED_URL="http://127.0.0.1:8080/feeds";
