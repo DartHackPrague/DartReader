@@ -36,6 +36,16 @@ class DartReader {
   void dataReceived(MessageEvent e) {
     var data = JSON.parse(e.data);
     print(data['responseData']);
+    List s =  data['responseData']['results'] ;
+    
+    List source_list = new List();
+    for (var item in s){
+      print(item['title']);
+      source_list.add(item['title']);
+      
+    }
+    
+    display_source_list(source_list);
   }
   
   void loadSourceData(String feedURL){
