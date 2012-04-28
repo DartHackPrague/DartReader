@@ -1,10 +1,11 @@
-#library Storage;
+#library ('Storage'); 
+#import ('../../dart-feed/FeedParser.dart');
 
 
-#import ('../dart-feed/FeedParser.dart');
-//#source "../dart-feed/FeedParser.dart";
 
-
+/*fake implementation
+ of Repository pattern
+*/
 class Storage {
 
   List<Feed> GetAll()  {
@@ -14,14 +15,14 @@ class Storage {
     //hardcoded fake list:
     
     Feed one = new Feed();
-    one.title = "Titulek1";
-    one.imageUrl = "any.gif";
+    one.title = "BBC News - Home";
+    one.imageUrl = "http://news.bbcimg.co.uk/nol/shared/img/bbc_news_120x60.gif";
     one.id="1";
     all.add(one); 
     
     Feed second = new Feed();
-    second.title = "Titulek2";
-    second.imageUrl = "any2.gif";
+    second.title = "any rss feed...";
+    second.imageUrl = "http://news.bbcimg.co.uk/nol/shared/img/bbc_news_120x60.gif";
     second.id="2";
     all.add(second);
     
