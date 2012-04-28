@@ -36,7 +36,7 @@ class XmlTokenizer {
   static final int RBRACK = 93; //]
 
   static final List _reserved = const [LT, GT, Q, B, COLON, SLASH, QUOTE,
-                                      SQUOTE, EQ, DASH, RBRACK];
+                                      SQUOTE, EQ, RBRACK];
 
   final Queue<_XmlToken> _tq;
   final String _xml;
