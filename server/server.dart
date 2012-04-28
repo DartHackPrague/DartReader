@@ -122,6 +122,11 @@ class Server {
     feed.id = null;
     feed.sourceUrl = @'C:\Work\dartfeeds\nyt.xml';
     _storage.saveFeed(feed);
+
+    feed = new JsonObject();
+    feed.id = null;
+    feed.sourceUrl = @'C:\Work\dartfeeds\sport.xml';
+    _storage.saveFeed(feed);
   }
 }
 
