@@ -6,6 +6,7 @@
 
 #import("dart:io");
 #import("dart:json");
+#import("../3rdParty/jsonObject.dart");
 
 final HOST = "127.0.0.1";
 final PORT = 8080;
@@ -30,7 +31,7 @@ void requestReceivedHandler(HttpRequest request, HttpResponse response) {
   String jsonResponse = createJsonResponse();
   
   
-  response.headers.set(HttpHeaders.CONTENT_TYPE, "text/json; charset=UTF-8");
+  response.headers.set(HttpHeaders.CONTENT_TYPE, "text/html; charset=UTF-8");
   response.outputStream.writeString(jsonResponse);
   response.outputStream.close();
 }
