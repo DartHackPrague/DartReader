@@ -6,7 +6,8 @@
 
 class DartReader {
   final SOURCE_FEED_URL="http://127.0.0.1:8080/feeds";
-  
+  final SOURCE_FEED_ITEM_URL="http://127.0.0.1:8080/feedsitems?fid=";
+  final WINDOW_MESSAGE_GET_FEED_ITEM="get_feed_item_";
   DartReader() {
     
   }
@@ -37,17 +38,37 @@ class DartReader {
     
     print(e.data);
     
+    if (message.startsWith(WINDOW_MESSAGE_GET_FEED_ITEM)){
+      var feedId = message.substring(WINDOW_MESSAGE_GET_FEED_ITEM.length);
+      download_feed_item(feedId);
+      
+      return;
+    }
+    
     process_downloaded_data(e.data);
   }
   
+  void download_feed_item(id){
+    Element script = new Element.tag("script");
+    script.src = SOURCE_FEED_ITEM_URL+id;
+    document.body.elements.add(script);
+  }
   //data loaders
   void process_downloaded_data(data){
     var f = JSON.parse(data);
-    List s =  f['responseData']['results'] ;
-    process_source_data(s);
+    
+    List s;
+    if (f['responseData']['source_data'] !=null){
+      s=f['responseData']['source_data'];
+      process_source_data(s);
+    }else{
+      s=f['responseData']['item_data'];
+      process_feed_data(s);
+    }
   }
   
   void process_source_data(List data){
+    print('Processing source feed');
     List result = new List();
     for (var item in data){
       SourceItem s = new SourceItem();
@@ -59,6 +80,10 @@ class DartReader {
     }
     
     display_source_list(result);
+  }
+  
+  void process_feed_data(List data){
+    print('Processing item feed');
   }
   
   void load_data(String feedURL){
