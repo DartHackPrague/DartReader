@@ -8,6 +8,7 @@ class DartReader {
   final SOURCE_FEED_URL="http://127.0.0.1:8080/feeds";
   final SOURCE_FEED_ITEM_URL="http://127.0.0.1:8080/feedsitems?fid=";
   final WINDOW_MESSAGE_GET_FEED_ITEM="get_feed_item_";
+  
   DartReader() {
     
   }
@@ -31,7 +32,7 @@ class DartReader {
   void messageHandler(MessageEvent e) {
     String message = e.data.toString();
     
-    print(e.data);
+    print(message);
     
     if (message.startsWith(WINDOW_MESSAGE_GET_FEED_ITEM)){
       var feedId = message.substring(WINDOW_MESSAGE_GET_FEED_ITEM.length);
@@ -44,14 +45,16 @@ class DartReader {
   }
   
   void download_feed_item(id){
-    Element script = new Element.tag("script");
-    script.src = SOURCE_FEED_ITEM_URL+id;
-    document.body.elements.add(script);
+    load_data(SOURCE_FEED_ITEM_URL+id);
+    
+    //Element script = new Element.tag("script");
+    //script.src = SOURCE_FEED_ITEM_URL+id;
+    //document.body.elements.add(script);
   }
   //data loaders
   void process_downloaded_data(data){
     var f = JSON.parse(data);
-    
+    print(f);
     List s;
     if (f['responseData']['sourceData'] !=null){
       s=f['responseData']['sourceData'];
