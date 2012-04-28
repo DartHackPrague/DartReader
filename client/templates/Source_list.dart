@@ -38,8 +38,10 @@ class SourceList {
       _scopes["item"] = item;
       var e0 = new Element.html('<li></li>');
       parent.elements.add(e0);
-      var e1 = new Element.html('<span>${inject_0()}</span>');
+      var e1 = new Element.html('<span></span>');
       e0.elements.add(e1);
+      var e2 = new Element.html('<img src="${item.imageUrl}">message</img>${inject_0()}');
+      e1.elements.add(e2);
       _scopes.remove("item");
     }
   }
