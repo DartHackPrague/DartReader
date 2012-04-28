@@ -5,14 +5,14 @@
   </head>
   <body>
   <script type="application/dart" src="DartReader.dart"></script>
+	  <script type="text/javascript">
+		function callbackForJsonpApi(s) {
+		  window.postMessage(JSON.stringify(s), '*');
+		}
+	</script>
   	<div id="drt_header">
   		<h1>DartReader</h1>
   	</div>
-    
-    <div id="drt_content">
-	    <div id="side_bar"></div>
-	    <ul id="content_lst"></ul>
-    </div>
     <script type="text/javascript" src="DartReader.dart.app.js"></script>
   </body>
 </html>
