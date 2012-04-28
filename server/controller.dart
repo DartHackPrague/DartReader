@@ -53,12 +53,7 @@ String createJsonResponse() {
   String response =  JSON.stringify(allDtos);
   return response;
   
-  /*
-  var feed = new JsonObject();  //default constructor sets isExtendable to true
-  feed.name = "Chris";
-  feed.title = "FirstTitle";
-  String response =  JSON.stringify(feed);
-  return response;*/
+ 
   
 }
 
