@@ -14,7 +14,7 @@ class FeedController
     var dto = new JsonObject();  //default constructor sets isExtendable to true
     dto.id = domainObject.id;
     dto.title = domainObject.title;
-    dto.url = domainObject.url;
+    dto.imageUrl = domainObject.imageUrl;
     return dto; 
   }
 }

@@ -16,6 +16,7 @@ class FeedItemController {
     dto.id = item.id;
     dto.title = item.title;
     dto.url = item.url;
+    dto.description = item.description;
     return dto; 
   }
 }

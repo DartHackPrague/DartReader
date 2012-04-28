@@ -9,7 +9,8 @@
 #import('../3rdParty/jsonObject.dart');
 #import ('../dart-feed/FeedParser.dart');
 
-#source('Storage/Storage.dart');
+#import('Storage/Storage.dart');
+
 #source('FeedController.dart');
 #source('FeedItemController.dart');
 
@@ -38,9 +39,11 @@ void requestReceivedHandler(HttpRequest request, HttpResponse response) {
   if (request.path.startsWith('/feeds')) {
     FeedController c = new FeedController();
     result = c.get();
-  } else if (request.path.startsWith('/feedItems')) {
+  } else if (request.path.startsWith('/feeditems')) {
     FeedItemController c = new FeedItemController();
-    result = c.get(request.queryParameters['id']);
+    result = c.get(request.queryParameters['fid']);
+  } else {
+    result = ''; // TODO 404
   }
   
   response.headers.set(HttpHeaders.CONTENT_TYPE, "text/html; charset=UTF-8");

@@ -1,3 +1,7 @@
+#library('Storage');
+#import ('../../dart-feed/FeedParser.dart');
+
+
 /*fake implementation
  of Repository pattern
 */
@@ -16,10 +20,17 @@ class Storage {
     _feedById[one.id] = one;
     
     i = new FeedItem();
+    i.id = '1';
     i.title = 'Item 11';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
     one.feedItems.add(i);
+    
     i = new FeedItem();
+    i.id = '2';
     i.title = 'Item 12';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
     one.feedItems.add(i);
     
     Feed second = new Feed();
@@ -30,10 +41,17 @@ class Storage {
     _feedById[second.id] = second;
     
     i = new FeedItem();
+    i.id = '3';
     i.title = 'Item 21';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
     second.feedItems.add(i);
+    
     i = new FeedItem();
+    i.id = '4';
     i.title = 'Item 22';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
     second.feedItems.add(i);
   }
 
