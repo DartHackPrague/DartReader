@@ -58,11 +58,11 @@ class DartReader {
     var f = JSON.parse(data);
     
     List s;
-    if (f['responseData']['source_data'] !=null){
-      s=f['responseData']['source_data'];
+    if (f['responseData']['sourceData'] !=null){
+      s=f['responseData']['sourceData'];
       process_source_data(s);
     }else{
-      s=f['responseData']['item_data'];
+      s=f['responseData']['itemData'];
       process_feed_data(s);
     }
   }
