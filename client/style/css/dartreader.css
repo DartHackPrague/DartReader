@@ -1,0 +1,12 @@
+ul#source_lst{
+	width: 200px;
+	display: block;
+}
+
+ul#feed_items_lst{
+	display: block;
+	width: 500px;
+	position: absolute;
+	left: 300px;
+	top: 50px;
+}

@@ -104,7 +104,7 @@ class FeedItemsList {
       parent.elements.add(e0);
       var e1 = new Element.html('<span></span>');
       e0.elements.add(e1);
-      var e2 = new Element.html('<a href="${item.url}">${inject_0()}</a>');
+      var e2 = new Element.html('<a target="_blank" href="${item.url}">${inject_0()}</a>');
       e1.elements.add(e2);
       var e3 = new Element.html('<span>${inject_1()}</span>');
       e0.elements.add(e3);
