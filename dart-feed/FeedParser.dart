@@ -10,47 +10,27 @@
 
 class FeedParser
 {
-  static Future<Feed> loadAndParse(String feedUrl)
+  static Feed loadAndParse(String fileName)
   {
-    Completer completer = new Completer();
+    File file = new File(fileName);
+    InputStream stream = file.openInputStream();
+    List content = stream.read();
+    String xmlString = new String.fromCharCodes(content);
+    print('test');
+    stream.close();
     
-    HttpClient httpClient = new HttpClient();
+    print('file read');
     
-    Uri uri = new Uri.fromString(feedUrl);
+    XmlElement xml = XML.parse(xmlString);
     
-    HttpClientConnection conn = httpClient.getUrl(uri);
+    Feed f = new Feed();
+    f.feedItems = new List<FeedItem>();
+    for (var item in xml.query('item'))
+    {
+      FeedItem fi = new FeedItem();
+      fi.title = "test";
+    }
     
-    conn.onRequest =
-        (HttpClientRequest req)
-        {
-          req.headers.set('Host', uri.domain);
-          req.outputStream.close();
-        };
-    
-    conn.onResponse =
-      (HttpClientResponse resp)
-      {
-        print('Feed Url: $feedUrl ${resp.statusCode}\nContent length: ${resp.contentLength}');
-      
-        List content = resp.inputStream.read();
-        String xmlString = new String.fromCharCodes(content);
-        
-        print('string length = ${xmlString.length}');
-        
-        XmlElement xml = XML.parse(xmlString);
-        
-        Feed f = new Feed();
-        f.feedItems = new List<FeedItem>();
-        for (var item in xml.query('item'))
-        {
-          FeedItem fi = new FeedItem();
-          fi.title = "test";
-        }
-        
-        completer.complete(f);
-      };
-    httpClient.shutdown();
-    
-    return completer.future;
+    return f;
   }
 }
