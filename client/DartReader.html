@@ -9,6 +9,10 @@
 		function callbackForJsonpApi(s) {
 		  window.postMessage(JSON.stringify(s), '*');
 		}
+		
+		function download_feed_item(id){
+			window.postMessage('download_feed_item_'+id, '*');
+		}
 	</script>
   	<div id="drt_header">
   		<h1>DartReader</h1>

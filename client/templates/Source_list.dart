@@ -44,7 +44,7 @@ class SourceList {
       e1.elements.add(e2);
       var e3 = new Element.html('<span></span>');
       e1.elements.add(e3);
-      var e4 = new Element.html('<a href="#${item.title}">${inject_0()}</a>');
+      var e4 = new Element.html('<a href="#${item.title}" onclick="javascript:download_feed_item(${item.id})">${inject_0()}</a>');
       e3.elements.add(e4);
       _scopes.remove("item");
     }

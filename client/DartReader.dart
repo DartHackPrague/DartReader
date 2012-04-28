@@ -12,7 +12,8 @@ class DartReader {
   }
   
   void run() {
-    window.on.message.add(dataReceived);
+    window.on.message.add(messageHandler);
+
     init_data();
   }
 
@@ -30,13 +31,19 @@ class DartReader {
     List list = ['cnn', 'bbc'];
     return list;
   }
-
-  //data loaders
-  void dataReceived(MessageEvent e) {
-    var data = JSON.parse(e.data);
-    print(data['responseData']);
-    List s =  data['responseData']['results'] ;
+  
+  void messageHandler(MessageEvent e) {
+    String message = e.data.toString();
     
+    print(e.data);
+    
+    process_downloaded_data(e.data);
+  }
+  
+  //data loaders
+  void process_downloaded_data(data){
+    var f = JSON.parse(data);
+    List s =  f['responseData']['results'] ;
     process_source_data(s);
   }
   
@@ -58,6 +65,10 @@ class DartReader {
     Element script = new Element.tag("script");
     script.src = feedURL;
     document.body.elements.add(script);
+  }
+  
+  void update_feed(){
+    print('1');
   }
 }
 
