@@ -40,10 +40,12 @@ class SourceList {
       parent.elements.add(e0);
       var e1 = new Element.html('<span></span>');
       e0.elements.add(e1);
-      var e2 = new Element.html('<img src="${item.imageUrl}">message</img>');
+      var e2 = new Element.html('<img alt="${item.title}" src="${item.imageUrl}">image</img>');
       e1.elements.add(e2);
-      var e3 = new Element.html('<span>${inject_0()}</span>');
+      var e3 = new Element.html('<span></span>');
       e1.elements.add(e3);
+      var e4 = new Element.html('<a href="#${item.title}">${inject_0()}</a>');
+      e3.elements.add(e4);
       _scopes.remove("item");
     }
   }
