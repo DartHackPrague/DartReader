@@ -5,3 +5,11 @@ template SourceList(List source_list) {
 	      ${/each}
 	    </ul>
 }
+
+template FeedItemsList(List feed_items_list) {
+	    <ul id="feed_items_lst">
+	      ${#each feed_items_list item}
+		      <li><span>${item.title}</span></li>
+	      ${/each}
+	    </ul>
+}

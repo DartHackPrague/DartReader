@@ -30,6 +30,11 @@ class DartReader {
     document.body.elements.add(source_tmp.root);
   }
   
+  void display_feed_items_list(List source_list){
+    FeedItemsList source_tmp = new FeedItemsList(source_list);
+    document.body.elements.add(source_tmp.root);
+  }
+  
   void messageHandler(MessageEvent e) {
     String message = e.data.toString();
     
@@ -83,6 +88,16 @@ class DartReader {
   
   void process_feed_data(List data){
     print('Processing item feed');
+
+    List result = new List();
+    for (var item in data){
+      FeedItem s = new FeedItem();
+
+      s.title = item['title'];
+      result.add(s);
+    }
+    
+    display_feed_items_list(result);
   }
   
   void load_data(String feedURL){

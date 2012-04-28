@@ -5,4 +5,3 @@ client/controller.dart
 dart-feed/FeedParser.dart
 3rdParty/dart-xml/Xml.dart
 client/DartReader.dart
-client/templates/Items_list.dart
