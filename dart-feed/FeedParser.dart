@@ -16,12 +16,27 @@ class FeedParser
     
     HttpClient httpClient = new HttpClient();
     
-    HttpClientConnection conn = httpClient.getUrl(new Uri.fromString(feedUrl));
+    Uri uri = new Uri.fromString(feedUrl);
+    
+    HttpClientConnection conn = httpClient.getUrl(uri);
+    
+    conn.onRequest =
+        (HttpClientRequest req)
+        {
+          req.headers.set('Host', uri.domain);
+          req.outputStream.close();
+        };
+    
     conn.onResponse =
       (HttpClientResponse resp)
       {
+        print('Feed Url: $feedUrl ${resp.statusCode}\nContent length: ${resp.contentLength}');
+      
         List content = resp.inputStream.read();
         String xmlString = new String.fromCharCodes(content);
+        
+        print('string length = ${xmlString.length}');
+        
         XmlElement xml = XML.parse(xmlString);
         
         Feed f = new Feed();
