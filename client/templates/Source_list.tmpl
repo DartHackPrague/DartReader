@@ -1,7 +1,7 @@
 template SourceList(List source_list) {
 	    <ul id="source_lst">
 	      ${#each source_list item}
-		      <li><span><img src="${item.imageUrl}">message</img>${item.title}</span></li>
+		      <li><span><img src="${item.imageUrl}">message</img><span>${item.title}</span></span></li>
 	      ${/each}
 	    </ul>
 }
