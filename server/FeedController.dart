@@ -6,8 +6,10 @@ class FeedController {
   
   String get() {
     var feeds = _storage.getFeeds();
+    var res = new JsonObject();
+    res.sourceData = feeds;
     
-    String response = JSON.stringify(feeds);
+    String response = JSON.stringify(res);
     return response;
   }
 }

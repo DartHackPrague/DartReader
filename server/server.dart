@@ -79,9 +79,9 @@ class Server {
   
   String wrapJson(String jsonString) {
     StringBuffer sb = new StringBuffer();
-    sb.add('callbackForJsonpApi({"responseData":{"results":');
+    sb.add('callbackForJsonpApi({"responseData":');
     sb.add(jsonString);
-    sb.add('}})');
+    sb.add('})');
     
     return sb.toString();
   }
