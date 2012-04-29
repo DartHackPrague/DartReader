@@ -20,7 +20,12 @@ final PORT = 8080;
 
 final LOG_REQUESTS = true;
 
+Feed tempParsed;
+
 void main() {
+  FeedParser.loadAndParse(@"C:\Users\Alex\Downloads\bbc.xml").then(
+    (Feed f) => tempParsed = f);
+  
   HttpServer server = new HttpServer();
   
   server.addRequestHandler((HttpRequest request) => true, requestReceivedHandler);
@@ -29,6 +34,7 @@ void main() {
   
   print("Serving the current time on http://${HOST}:${PORT}."); 
 }
+
 
 void requestReceivedHandler(HttpRequest request, HttpResponse response) {
   if (LOG_REQUESTS) {
@@ -42,6 +48,13 @@ void requestReceivedHandler(HttpRequest request, HttpResponse response) {
   } else if (request.path.startsWith('/feeditems')) {
     FeedItemController c = new FeedItemController();
     result = c.get(request.queryParameters['fid']);
+  } else if (request.path.startsWith('/parsed')) {
+    var t = new JsonObject();
+    t.title = tempParsed.title;
+    t.description = tempParsed.description;
+    t.url = tempParsed.url;
+    t.imageUrl = tempParsed.imageUrl;
+    result = JSON.stringify(t);
   } else {
     result = ''; // TODO 404
   }

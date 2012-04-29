@@ -27,6 +27,11 @@ class FeedParser
       XmlElement xml = XML.parse(xmlString);
       
       Feed f = new Feed();
+      f.title = xml.query('title')[0].text;
+      f.description = xml.query('description')[0].text;
+      f.url = xml.query('link')[0].text;
+      f.imageUrl = xml.query('image')[0].query('url')[0].text;
+      
       f.feedItems = new List<FeedItem>();
       for (var item in xml.query('item'))
       {
