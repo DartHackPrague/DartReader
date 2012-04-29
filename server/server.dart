@@ -85,7 +85,59 @@ class Server {
   }
   
   void initTestData() {
+    var feed;
+    var i;
+    var itemsList;
     
+    // feed 1
+    feed = new JsonObject();
+    feed.id = null;
+    feed.title = "BBC News - Home";
+    feed.imageUrl = "http://news.bbcimg.co.uk/nol/shared/img/bbc_news_120x60.gif";
+    _storage.saveFeed(feed);
+    
+    itemsList = new List();
+    
+    i = new JsonObject();
+    i.guid = '1';
+    i.title = 'Item 11';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
+    itemsList.add(i);
+    
+    i = new JsonObject();
+    i.guid = '2';
+    i.title = 'Item 12';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
+    itemsList.add(i);
+    
+    _storage.addFeedItems("1", itemsList);
+
+    // feed 2
+    feed = new JsonObject();
+    feed.id = null;
+    feed.title = "any rss feed...";
+    feed.imageUrl = "http://news.bbcimg.co.uk/nol/shared/img/bbc_news_120x60.gif";
+    _storage.saveFeed(feed);
+    
+    itemsList = new List();
+    
+    i = new JsonObject();
+    i.guid = '3';
+    i.title = 'Item 21';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
+    itemsList.add(i);
+    
+    i = new JsonObject();
+    i.guid = '4';
+    i.title = 'Item 22';
+    i.url = 'http://www.dartlang.org';
+    i.description = 'Item description text.';
+    itemsList.add(i);
+    
+    _storage.addFeedItems("2", itemsList);
   }
 }
 
