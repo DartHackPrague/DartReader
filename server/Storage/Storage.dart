@@ -2,8 +2,7 @@
 #import ('../../dart-feed/FeedParser.dart');
 
 
-/*fake implementation
- of Repository pattern
+/** in-memory storage implementation
 */
 class Storage {
   Map _feedById;
