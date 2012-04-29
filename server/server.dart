@@ -20,6 +20,7 @@
 class Server {
   final HOST = "127.0.0.1";
   final PORT = 8080;
+  final TIMERMS = 10 * 1000;
 
   final LOG_REQUESTS = true;
 
@@ -39,6 +40,8 @@ class Server {
   void run() {
     //FeedParser.loadAndParse(@"C:\work\dartfeeds\bbc.xml").then((Feed f) => tempParsed = f);
     initTestData();
+    
+    new Timer.repeating(TIMERMS, (Timer t) => updateAllFeeds());
     
     HttpServer server = new HttpServer();
     server.addRequestHandler((HttpRequest request) => true, requestReceivedHandler);
@@ -84,6 +87,26 @@ class Server {
     return sb.toString();
   }
   
+  
+  void updateAllFeeds() {
+    List feeds = _storage.getFeeds();
+    
+    for (var feedDO in feeds) {
+      FeedParser.loadAndParse(feedDO.sourceUrl).then(
+        (Feed f) {
+          var updatedFeedDO = Convert.feedToDO(f, feedDO);
+          _storage.saveFeed(updatedFeedDO);
+          
+          var newItems = new List();
+          for (FeedItem fi in f.feedItems) {
+            newItems.add(Convert.feedItemToDO(fi, new JsonObject()));
+          }
+          
+          _storage.addFeedItems(updatedFeedDO.id, newItems);
+        });
+    }
+  }
+  
   void initTestData() {
     var feed;
     var i;
@@ -92,52 +115,14 @@ class Server {
     // feed 1
     feed = new JsonObject();
     feed.id = null;
-    feed.title = "BBC News - Home";
-    feed.imageUrl = "http://news.bbcimg.co.uk/nol/shared/img/bbc_news_120x60.gif";
+    feed.sourceUrl = @'C:\Work\dartfeeds\bbc.xml';
     _storage.saveFeed(feed);
     
-    itemsList = new List();
-    
-    i = new JsonObject();
-    i.guid = '1';
-    i.title = 'Item 11';
-    i.url = 'http://www.dartlang.org';
-    i.description = 'Item description text.';
-    itemsList.add(i);
-    
-    i = new JsonObject();
-    i.guid = '2';
-    i.title = 'Item 12';
-    i.url = 'http://www.dartlang.org';
-    i.description = 'Item description text.';
-    itemsList.add(i);
-    
-    _storage.addFeedItems("1", itemsList);
-
     // feed 2
     feed = new JsonObject();
     feed.id = null;
-    feed.title = "any rss feed...";
-    feed.imageUrl = "http://news.bbcimg.co.uk/nol/shared/img/bbc_news_120x60.gif";
+    feed.sourceUrl = @'C:\Work\dartfeeds\bbc.xml';
     _storage.saveFeed(feed);
-    
-    itemsList = new List();
-    
-    i = new JsonObject();
-    i.guid = '3';
-    i.title = 'Item 21';
-    i.url = 'http://www.dartlang.org';
-    i.description = 'Item description text.';
-    itemsList.add(i);
-    
-    i = new JsonObject();
-    i.guid = '4';
-    i.title = 'Item 22';
-    i.url = 'http://www.dartlang.org';
-    i.description = 'Item description text.';
-    itemsList.add(i);
-    
-    _storage.addFeedItems("2", itemsList);
   }
 }
 
