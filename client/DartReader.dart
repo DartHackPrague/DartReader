@@ -28,11 +28,6 @@ class DartReader {
     document.body.elements.add(source_tmp.root);
   }
   
-  List get_fake_source_list(){
-    List list = ['cnn', 'bbc'];
-    return list;
-  }
-  
   void messageHandler(MessageEvent e) {
     String message = e.data.toString();
     
