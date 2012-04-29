@@ -24,7 +24,7 @@ class FeedParser
       List content = stream.read();
       String xmlString = new String.fromCharCodes(content);
       print('xml len = ${xmlString.length}');
-      XmlElement xml = XML.parse(xmlString);
+      var xml = XML.parse(xmlString);
       
       Feed f = new Feed();
       f.title = xml.query('title')[0].text;
@@ -33,10 +33,16 @@ class FeedParser
       f.imageUrl = xml.query('image')[0].query('url')[0].text;
       
       f.feedItems = new List<FeedItem>();
-      for (var item in xml.query('item'))
+      for (var item in xml.queryAll('item'))
       {
         FeedItem fi = new FeedItem();
-        fi.title = "test";
+        fi.guid = item.query('guid')[0].text;
+        fi.title = item.query('title')[0].text;
+        fi.description = item.query('description')[0].text;
+        fi.url = item.query('link')[0].text;
+        fi.pubDate = item.query('pubDate')[0].text;
+        
+        f.feedItems.add(fi);
       }
       
       compl.complete(f);

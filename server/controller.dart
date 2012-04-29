@@ -49,11 +49,25 @@ void requestReceivedHandler(HttpRequest request, HttpResponse response) {
     FeedItemController c = new FeedItemController();
     result = c.get(request.queryParameters['fid']);
   } else if (request.path.startsWith('/parsed')) {
+    
     var t = new JsonObject();
     t.title = tempParsed.title;
     t.description = tempParsed.description;
     t.url = tempParsed.url;
     t.imageUrl = tempParsed.imageUrl;
+    t.items = new List<JsonObject>();
+    
+    for (FeedItem fi in tempParsed.feedItems) {
+      var ti = new JsonObject();
+      ti.guid = fi.guid;
+      ti.title = fi.title;
+      ti.description = fi.description;
+      ti.url = fi.url;
+      ti.puDate = fi.pubDate;
+      
+      t.items.add(ti);
+    }
+    
     result = JSON.stringify(t);
   } else {
     result = ''; // TODO 404
