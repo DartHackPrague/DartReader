@@ -117,11 +117,11 @@ class Server {
     feed.sourceUrl = @'C:\Work\dartfeeds\bbc.xml';
     _storage.saveFeed(feed);
     
-    // feed 2 http://news.dartlang.org/feeds/posts/default
+    // feed 2
     feed = new JsonObject();
     feed.id = null;
-    feed.sourceUrl = @'C:\Work\dartfeeds\dart.xml';
-    //_storage.saveFeed(feed);
+    feed.sourceUrl = @'C:\Work\dartfeeds\nyt.xml';
+    _storage.saveFeed(feed);
   }
 }
 
