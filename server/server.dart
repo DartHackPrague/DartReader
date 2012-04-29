@@ -20,7 +20,7 @@
 class Server {
   final HOST = "127.0.0.1";
   final PORT = 8080;
-  final TIMERMS = 10 * 1000;
+  final TIMERMS = 3 * 1000;
 
   final LOG_REQUESTS = true;
 
@@ -38,7 +38,6 @@ class Server {
   
   
   void run() {
-    //FeedParser.loadAndParse(@"C:\work\dartfeeds\bbc.xml").then((Feed f) => tempParsed = f);
     initTestData();
     
     new Timer.repeating(TIMERMS, (Timer t) => updateAllFeeds());
@@ -112,17 +111,17 @@ class Server {
     var i;
     var itemsList;
     
-    // feed 1
+    // feed 1 http://feeds.bbci.co.uk/news/rss.xml
     feed = new JsonObject();
     feed.id = null;
     feed.sourceUrl = @'C:\Work\dartfeeds\bbc.xml';
     _storage.saveFeed(feed);
     
-    // feed 2
+    // feed 2 http://news.dartlang.org/feeds/posts/default
     feed = new JsonObject();
     feed.id = null;
-    feed.sourceUrl = @'C:\Work\dartfeeds\bbc.xml';
-    _storage.saveFeed(feed);
+    feed.sourceUrl = @'C:\Work\dartfeeds\dart.xml';
+    //_storage.saveFeed(feed);
   }
 }
 
