@@ -65,8 +65,18 @@ class Server {
     }
     
     response.headers.set(HttpHeaders.CONTENT_TYPE, "text/html; charset=UTF-8");
-    response.outputStream.writeString(result);
+    response.outputStream.writeString(wrapJson(result));
     response.outputStream.close();
+  }
+  
+  
+  String wrapJson(String jsonString) {
+    StringBuffer sb = new StringBuffer();
+    sb.add('callbackForJsonpApi({"responseData":{"results":');
+    sb.add(jsonString);
+    sb.add('}})');
+    
+    return sb.toString();
   }
 }
 
