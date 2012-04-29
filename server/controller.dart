@@ -13,67 +13,65 @@
 
 #source('FeedController.dart');
 #source('FeedItemController.dart');
+#source('ParserController.dart');
 
 
-final HOST = "127.0.0.1";
-final PORT = 8080;
+class Server {
+  final HOST = "127.0.0.1";
+  final PORT = 8080;
 
-final LOG_REQUESTS = true;
+  final LOG_REQUESTS = true;
 
-Feed tempParsed;
-
-void main() {
-  FeedParser.loadAndParse(@"C:\Users\Alex\Downloads\bbc.xml").then(
-    (Feed f) => tempParsed = f);
+  Feed tempParsed;
   
-  HttpServer server = new HttpServer();
   
-  server.addRequestHandler((HttpRequest request) => true, requestReceivedHandler);
-  
-  server.listen(HOST, PORT);
-  
-  print("Serving the current time on http://${HOST}:${PORT}."); 
-}
-
-
-void requestReceivedHandler(HttpRequest request, HttpResponse response) {
-  if (LOG_REQUESTS) {
-    print("Request: ${request.method} ${request.uri}");
+  void run() {
+    FeedParser.loadAndParse(@"C:\work\dartfeeds\bbc.xml").then(
+      (Feed f) => tempParsed = f);
+    
+    HttpServer server = new HttpServer();
+    
+    server.addRequestHandler((HttpRequest request) => true, requestReceivedHandler);
+    
+    server.listen(HOST, PORT);
+    
+    print("Serving the current time on http://${HOST}:${PORT}."); 
   }
   
-  String result;
-  if (request.path.startsWith('/feeds')) {
-    FeedController c = new FeedController();
-    result = c.get();
-  } else if (request.path.startsWith('/feeditems')) {
-    FeedItemController c = new FeedItemController();
-    result = c.get(request.queryParameters['fid']);
-  } else if (request.path.startsWith('/parsed')) {
-    
-    var t = new JsonObject();
-    t.title = tempParsed.title;
-    t.description = tempParsed.description;
-    t.url = tempParsed.url;
-    t.imageUrl = tempParsed.imageUrl;
-    t.items = new List<JsonObject>();
-    
-    for (FeedItem fi in tempParsed.feedItems) {
-      var ti = new JsonObject();
-      ti.guid = fi.guid;
-      ti.title = fi.title;
-      ti.description = fi.description;
-      ti.url = fi.url;
-      ti.puDate = fi.pubDate;
-      
-      t.items.add(ti);
+  
+  void requestReceivedHandler(HttpRequest request, HttpResponse response) {
+    if (LOG_REQUESTS) {
+      print("Request: ${request.method} ${request.uri}");
     }
     
-    result = JSON.stringify(t);
-  } else {
-    result = ''; // TODO 404
+    String result;
+    if (request.path.startsWith('/feeds')) {
+      
+      FeedController c = new FeedController();
+      result = c.get();
+      
+    } else if (request.path.startsWith('/feeditems')) {
+      
+      FeedItemController c = new FeedItemController();
+      result = c.get(request.queryParameters['fid']);
+      
+    } else if (request.path.startsWith('/parsed')) {
+
+      ParserController c = new ParserController();
+      result = c.get(tempParsed);
+      
+    } else {
+      result = ''; // TODO 404
+    }
+    
+    response.headers.set(HttpHeaders.CONTENT_TYPE, "text/html; charset=UTF-8");
+    response.outputStream.writeString(result);
+    response.outputStream.close();
   }
-  
-  response.headers.set(HttpHeaders.CONTENT_TYPE, "text/html; charset=UTF-8");
-  response.outputStream.writeString(result);
-  response.outputStream.close();
 }
+
+void main() {
+  Server server = new Server();
+  server.run();
+}
+

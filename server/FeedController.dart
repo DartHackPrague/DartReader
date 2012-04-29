@@ -1,8 +1,8 @@
 class FeedController
 {
   String get() {
-    Storage repo = new Storage();
-    List<Feed> feeds = repo.getAll();
+    Storage repo = new InMemoryStorage();
+    List<Feed> feeds = repo.getFeeds();
     
     var allDtos = feeds.map(toDto);
     String response = JSON.stringify(allDtos);

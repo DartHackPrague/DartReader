@@ -1,7 +1,7 @@
 class FeedItemController {
   
   String get(String id) {
-    Storage repo = new Storage();
+    Storage repo = new InMemoryStorage();
     List<FeedItem> items = repo.getFeedItems(id);
 
     var allDtos = items.map(toDto);
