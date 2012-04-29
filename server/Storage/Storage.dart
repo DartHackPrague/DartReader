@@ -10,7 +10,7 @@
 interface Storage {
   Collection getFeeds();
   
-  void addFeed(var feed);
+  void saveFeed(var feed);
   
   Collection getFeedItems(String feedId);
   

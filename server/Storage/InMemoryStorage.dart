@@ -3,10 +3,13 @@
 class InMemoryStorage implements Storage {
   
   Map _feedById;
+  Map _itemsByFeedIdByGuid;
   int _idCounter;
   
   InMemoryStorage() {
     _feedById = new Map();
+    _itemsByFeedIdByGuid = new Map();
+    
     FeedItem i;
     
     Feed one = new Feed();
@@ -58,17 +61,21 @@ class InMemoryStorage implements Storage {
   }
   
   
-  void addFeed(var feed) {
-    
+  void saveFeed(var feed) {
+    if (feed.id == null) feed.id = ++_idCounter;
+    _feedById[feed.id] = feed;
   }
   
   
   Collection getFeedItems(String feedId) {
-    return _feedById[feedId].feedItems;
+    return _itemsByFeedIdByGuid[feedId].getValues();
   }
   
 
   void addFeedItems(String feedId, Collection feedItems) {
+    _itemsByFeedIdByGuid.putIfAbsent(feedId, () => new Map());
     
+    Map itemByGuid = _itemsByFeedIdByGuid[feedId];
+    for (var item in feedItems) itemByGuid[item.guid] = item;
   }
 }
